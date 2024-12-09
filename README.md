@@ -30,8 +30,17 @@ Para este proyecto se utilizaron dos apis. Para hacer la busqueda de ciudades po
   - **`x-rapidapi-host`**: El valor debe ser `'x-rapidapi-host'`.
 
 ## Pasos para levantar el entorno local.
-Se trabajo en el proyecto con node v22.12.0 y npm v10.9.0
-- Crear un archivo .env en la raiz del proyecto y colocar las API Key de **Weatherapi** y **Weatherbit** con los nombres **VITE_WEATHERAPI_KEY** y **VITE_WEATHERBIT_KEY**
+
+### 1. Instalar Node y NPM
+Al momento de trabajar en el proyecto se utilizo la LTS de node (v22.12.0). Sin embargo a partir de la version 20 deberia ser suficiente para poder levantar el entorno local
+
+### 2. Variables de entorno
+Crear un archivo .env en la raiz del proyecto y colocar las API Key de **Weatherapi** y **Weatherbit** con los nombres **VITE_WEATHERAPI_KEY** y **VITE_WEATHERBIT_KEY**
+
+### 3. Levantar el proyecto
 - Ejecutar el comando npm run dev
-- Por ultimo brir en el navegador http://localhost:5173/
+- Por ultimo abrir en el navegador http://localhost:5173/
+
+### 4. Correr tests
+Despues de hacer todo esto, tambien deberian poder ejecutar los tests simplemente corriendo el comando **npm run test**
 

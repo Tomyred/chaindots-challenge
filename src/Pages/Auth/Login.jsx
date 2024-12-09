@@ -39,7 +39,7 @@ const Login = () => {
       {loginError.length > 0 
       &&
       <Typography textAlign={'center'} display={'block'}  variant="p" sx={{ mb: 2, color: 'red' }}>
-        {error}
+        {loginError}
       </Typography>
       }
       
