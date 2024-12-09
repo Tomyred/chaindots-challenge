@@ -1,5 +1,5 @@
 
-import weatherapiInstance from "../../../axiosIntances/weatherApiInstance";
+import weatherapiInstance from "../../../axiosIntances/weatherapiInstance";
 import weatherbitInstance from "../../../axiosIntances/weatherbitInstance";
 
 export const getCities = async (city) => weatherapiInstance.get(`/search.json?q=${city}&dt=2024-12-07`);
