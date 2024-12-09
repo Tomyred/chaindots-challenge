@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import { WeatherContext } from '../../context/WeatherContext/WeatherContext';
 import { searchForecast } from '../../context/WeatherContext/actions/forecastActions';
-import { Box, Typography, Grid, Card, CardContent, CardHeader, Divider, Collapse, IconButton, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'; // Icono para expandir/contraer
+import { Box, Typography, Collapse, IconButton, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { ArrowBack } from '@mui/icons-material';
 
 const Detail = () => {
@@ -19,7 +19,7 @@ const Detail = () => {
     searchForecast(forecastDispatch, lat, lon);
   }, [lat, lon]);
 
-  const groupedData = forecastState?.data || {};
+  const groupedData = forecastState.data;
 
   const handleDateClick = (date) => {
     setExpandedDate(expandedDate === date ? null : date);
@@ -39,7 +39,7 @@ const Detail = () => {
         </Box>
       </Box>
       {Object.keys(groupedData).map((date) => (
-        <Box key={date} sx={{ marginY: 4 }} onClick={() => handleDateClick(date)}>
+        <Box data-testid="measurement-container" key={date} sx={{ marginY: 4 }} onClick={() => handleDateClick(date)}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Typography
               variant="h6"

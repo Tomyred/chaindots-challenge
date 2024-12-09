@@ -1,7 +1,6 @@
 import { fahrenheitToCelsius, formatDateToHashKey, formatTime, mpsToKmh } from '../../../helpers/utils'
 import { getForecast } from '../api/api'
 import * as types from './types'
-import data from '../../../mocks/5dayForecast.json'
 
 export const searchForecast = async (dispatch, lat, lon) => {
   try {
@@ -9,9 +8,7 @@ export const searchForecast = async (dispatch, lat, lon) => {
       type: types.FORECAST_LOAD_INIT
     })
 
-    // const {data: {data} } = await getForecast(lat, lon)
-
-    // const data = [
+    const {data: {data} } = await getForecast(lat, lon)
     //   {
     //     "snow_depth": 0,
     //     "pop": 0,
@@ -263,7 +260,7 @@ export const searchForecast = async (dispatch, lat, lon) => {
         forecastMap[dateKey].push(measurement);
       }
     });
-
+    console.log(forecastMap)
     dispatch({
       type: types.FORECAST_LOAD_SUCCESS,
       payload: forecastMap
