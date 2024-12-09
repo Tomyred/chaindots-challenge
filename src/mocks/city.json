@@ -1,0 +1,11 @@
+{
+  "displayName": "Alta Gracia, Cordoba, Argentina",
+  "lat": -31.67,
+  "lon": -64.43,
+  "temp": 26.4,
+  "city": "Alta Gracia",
+  "condition": "Sunny",
+  "icon": "//cdn.weatherapi.com/weather/64x64/day/113.png",
+  "humidity": 39,
+  "windSpeed": 14.8
+}

@@ -6,6 +6,10 @@ import { WeatherContext } from '../context/WeatherContext/WeatherContext';
 import * as ReactRouter from 'react-router';
 import { AuthContext } from '../context/AuthContext/AuthContext';
 import user from '../mocks/userMock.json'
+import city from '../mocks/city.json'
+import { forecastDefault } from '../context/WeatherContext/reducers/ForecastReducer';
+import { cityDefault } from '../context/WeatherContext/reducers/CityReducer';
+import { authDefault } from '../context/AuthContext/reducers/AuthReducer';
 
 const mockDispatch = vi.fn();
 
@@ -18,33 +22,23 @@ vi.mock('react-router', async (importOriginal) => {
   };
 });
 
-const renderWithContext = (state, dispatch = mockDispatch) => {
-  const initialForecastState = state;
-  const initialCityState = { data: [] };
-  const initialAuthState =  {
-        "loading": false,
-        "loaded": true,
-        "loadingError": false,
-        "user": user,
-        "registerError": "",
-        "loginError": ""
-    }
-
+const renderWithContext = (forecastState = forecastDefault, cityState = cityDefault, authState = authDefault, dispatch = mockDispatch) => {
   return render(
     <WeatherContext.Provider
       value={{
-        cityState: initialCityState,
-        forecastState: initialForecastState,
+        cityState,
+        cityDispatch: dispatch,
+        forecastState,
         forecastDispatch: dispatch,
       }}
     >
       <AuthContext.Provider
         value={{
-          authState: initialAuthState,
+          authState,
           authDispatch: dispatch,
         }}
       >
-        <ReactRouter.MemoryRouter initialEntries={['/weather/detail/New York']}>
+        <ReactRouter.MemoryRouter initialEntries={['/weather/detail/Alta Gracia']}>
           <Detail />
         </ReactRouter.MemoryRouter>
       </AuthContext.Provider>
@@ -55,27 +49,46 @@ const renderWithContext = (state, dispatch = mockDispatch) => {
 describe('Detail Component', () => {
   it('should update forecastState.data and match keys with measurement-container count', async () => {
 
+    vi.mocked(ReactRouter.useLocation).mockReturnValue({ state: city });
 
-    const mockState = { lat: 40.7128, lon: -74.0060 };
-    vi.mocked(ReactRouter.useLocation).mockReturnValue({ state: mockState });
-    const initForecastState = { data: {} }
-    renderWithContext(initForecastState)
+    renderWithContext()
 
     await waitFor(() => {
-      mockDispatch();
       const measurementContainers = screen.queryAllByTestId('measurement-container');
       expect(measurementContainers.length).toBe(0);
     });
 
-    const updatedForecastState = { data: citiesStatus };
+    const updatedForecastState = {
+      loading: false,
+      loaded: false,
+      loadingError: false,
+      data: citiesStatus
+    }
 
     renderWithContext(updatedForecastState)
-  
 
     await waitFor(() => {
       const measurementContainers = screen.queryAllByTestId('measurement-container');
       const forecastKeys = Object.keys(updatedForecastState.data);
       expect(measurementContainers.length).toBe(forecastKeys.length);
+    });
+  });
+
+  it('should save city in localStorage key favorites', async () => {
+    vi.mocked(ReactRouter.useLocation).mockReturnValue({ state: city });
+  
+    const updatedForecastState = { data: citiesStatus };
+    renderWithContext(updatedForecastState);
+  
+    const favoritesBefore = JSON.parse(localStorage.getItem('favorites')) || [];
+    expect(favoritesBefore.length).toBe(0);
+  
+    const addFavButton = screen.getByTestId('add-fav-button');
+    addFavButton.click();
+  
+    await waitFor(() => {
+      const favoritesAfter = JSON.parse(localStorage.getItem('favorites')) || [];
+      expect(favoritesAfter.length).toBe(1);
     });
   });
 });

@@ -21,7 +21,7 @@ export const isInFavorites = (favorite) => {
 
 export const getFavorites = (id) => {
   const favs = JSON.parse(localStorage.getItem('favorites')) || [];
-  return favs.filter( fav => fav.userId === id )  ;
+  return favs.filter( fav => fav.userId === id );
 };
 
 export const insertNewFavorite = (favorite) => {

@@ -32,7 +32,7 @@ describe('Home Component', () => {
   it('renders WeatherCards after searching for a city', async () => {
     renderWithContext({ data: [], loading: false });
 
-    const searchInput = screen.getByTestId('search-input').querySelector('input');;
+    const searchInput = screen.getByTestId('search-input').querySelector('input');
 
     const cardsBeforeSearch = screen.queryAllByTestId('city-card');
     expect(cardsBeforeSearch).toHaveLength(0);

@@ -90,9 +90,9 @@ const Detail = () => {
 
           {
             isInFav ?
-            <Button onClick={handleRemove} sx={{ color: '#B32134' }}> <Delete sx={{ mr: 1, color: '#B32134' }}/> Remove from favorites</Button>
+            <Button data-testid='remove-fav-button' onClick={handleRemove} sx={{ color: '#B32134' }}> <Delete sx={{ mr: 1, color: '#B32134' }}/> Remove from favorites</Button>
             :
-            <Button onClick={handleAddFavorite} sx={{ color: '#f76c83' }}> <Favorite sx={{ mr: 1, color: '#f76c83' }}/> Add to favorites</Button>
+            <Button data-testid='add-fav-button' onClick={handleAddFavorite} sx={{ color: '#f76c83' }}> <Favorite sx={{ mr: 1, color: '#f76c83' }}/> Add to favorites</Button>
           }
 
           
