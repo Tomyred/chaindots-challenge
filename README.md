@@ -1,4 +1,7 @@
 # Notas sobre el Challenge
+
+Pueden acceder al sitio publicado en https://chaindots-challenge.netlify.app/
+
 ## Aclaración
 En los requisitos del challenge se especificaba que para el manejo de las rutas se utilice la librería **react-router-dom**.  
 Sin embargo, dicha librería está obsoleta y, hoy en día, es solo un export de la librería **react-router**, por lo que se avanzará instalando directamente esta última.
@@ -27,5 +30,8 @@ Para este proyecto se utilizaron dos apis. Para hacer la busqueda de ciudades po
   - **`x-rapidapi-host`**: El valor debe ser `'x-rapidapi-host'`.
 
 ## Pasos para levantar el entorno local.
-Se trabajo en el proyecto con node v22.12.0 y npm 10.9.0
+Se trabajo en el proyecto con node v22.12.0 y npm v10.9.0
+- Crear un archivo .env en la raiz del proyecto y colocar las API Key de **Weatherapi** y **Weatherbit** con los nombres **VITE_WEATHERAPI_KEY** y **VITE_WEATHERBIT_KEY**
+- Ejecutar el comando npm run dev
+- Por ultimo brir en el navegador http://localhost:5173/
 
