@@ -13,7 +13,7 @@ const Root = () => {
 
   useEffect(() => {
     const email = storageManager.get('email')
-    console.log({email})
+    console.log({authState})
     if(email){
 
       rememberSession(authDispatch, email)

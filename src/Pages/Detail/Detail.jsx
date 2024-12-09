@@ -15,7 +15,7 @@ const Detail = () => {
   const navigate = useNavigate()
   const city = location.state;
   const {lat, lon} = city
-  const { forecastState, cityState, cityDispatch } = useContext(WeatherContext);
+  const { forecastState, cityState, cityDispatch, forecastDispatch } = useContext(WeatherContext);
   const { authState } = useContext(AuthContext);
   const {user} = authState
 

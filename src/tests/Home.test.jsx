@@ -43,7 +43,7 @@ describe('Home Component', () => {
       mockDispatch();
     });
 
-    renderWithContext({ data: citiesStatus, loading: false });
+    renderWithContext({ data: citiesStatus, loading: false, loaded: true });
 
     const cardsAfterSearch = screen.queryAllByTestId('city-card');
     expect(cardsAfterSearch).toHaveLength(citiesStatus.length);
