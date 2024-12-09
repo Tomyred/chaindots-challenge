@@ -1,56 +1,20 @@
 import { Search, Visibility, VisibilityOff } from '@mui/icons-material'
-import { Box, Button, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput } from '@mui/material'
+import { Box, Button, CircularProgress, FormControl, IconButton, InputAdornment, InputLabel, OutlinedInput, Typography } from '@mui/material'
 import axios from 'axios'
-import React, { useState } from 'react'
-import baseInstance from '../../AxiosIntances/baseIntance'
+import React, { useContext, useState } from 'react'
 import WeatherCard from '../../Components/WeatherCard'
+import { WeatherContext } from '../../context/WeatherContext/WeatherContext'
+import { searchCity } from '../../context/WeatherContext/actions/cityActions'
+import { useNavigate } from 'react-router'
+import Container from '../../Components/Container'
 
 let typingTimer
 
 const Home = () => {
+  const {cityState, cityDispatch} = useContext(WeatherContext)
+  const navigate = useNavigate()
+  const {data, loading} = cityState
 
-  const [results, setResults] = useState([]);
-
-  const searchCity = async(city) => {
-    if(city.length > 1){
-      const cityStr = city.trim().replace(" ","+")
-      try {
-        const response = await baseInstance.get(`/search.json?q=${cityStr}&dt=2024-12-07`);
-
-        const resultsAux = response.data.map( async city => {
-          const cityStatus = searchCityWeather(city.lat, city.lon)
-          return cityStatus
-        } )
-
-        const citiesStatus = await Promise.all(resultsAux);
-        console.log(citiesStatus)
-        setResults(citiesStatus)
-
-      } catch (error) {
-        console.error(error);
-      }
-    }
-  }
-
-  const searchCityWeather = async (lat, lon) => {
-    try {
-      
-      const {data} = await baseInstance.get(`/current.json?q=${lat},${lon}`);
-
-      return {
-        displayName: `${data.location.name}, ${data.location.region}, ${data.location.country}`,
-        lat,
-        lon,
-        condition: data.current.condition.text,
-        icon: data.current.condition.icon,
-        humidity: data.current.humidity,
-        windSpeed: data.current.wind_kph
-      }
-      
-    } catch (error) {
-      console.log('searchCityWeather', error)
-    }
-  }
 
   const handleKeyUp = e => {
     const searchText = e.target.value;
@@ -59,20 +23,22 @@ const Home = () => {
     clearTimeout(typingTimer);
 
     typingTimer = setTimeout(() => {
-      searchCity(searchText)
+      searchCity(cityDispatch, searchText)
     }, 1000);
-};
+  };
+
+  const handleCardClick = (city) => {
+    navigate("/weather/detail/" + city.displayName, {state: {lat: city.lat, lon: city.lon}})
+  }
 
   return (
-    <Box
-      sx={styles.homeContainer}
-    >
+    <Container>
       <Box sx={styles.formContainer}>
         <FormControl sx={styles.inputContainer} variant="outlined">
           <InputLabel htmlFor="search-input">Search for your city!</InputLabel>
           <OutlinedInput
             onKeyUp={handleKeyUp}
-            id="search-input"
+            data-testid="search-input"
             endAdornment={
               <InputAdornment position="end">
                 <Search />
@@ -82,36 +48,46 @@ const Home = () => {
           />
         </FormControl>
       </Box>
+      <Box sx={styles.resultsContainer} >
+        <Typography sx={{display: 'flex', alignItems: 'center'}} variant='h4' textAlign="left" > Results {loading && <CircularProgress sx={{marginLeft: 2}} size="2rem"/>} </Typography>
         <Box sx={styles.cardsContainer}>
-        {results.map( (city, i) => {
-          return <WeatherCard key={city.displayName + i} city={city} />
-        } )}
+          {data.map( (city, i) => {
+            return <WeatherCard key={city.displayName + i} city={city} onClick={handleCardClick}/>
+          } )}
         </Box>
-    </Box>
+      </Box>
+    </Container>
   )
 }
 
 const styles = {
-  homeContainer: {
-    height: "100%",
-    width: "100%",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
   formContainer: {
-    width: "60%"
+    width: {
+      xs: '100%',
+      sm: '100%',
+      md: '60%',
+    },
   },
   inputContainer: { 
     width: "100%",
+  },
+  resultsContainer: {
+    width: {
+      xs: '100%',
+      sm: '100%',
+      md: '60%',
+    },
+    marginTop: 5,
+    height: '100%'
   },
   cardsContainer: {
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "center",
+    alignItems: 'center',
     gap: 2,
-    padding: 2,
-    marginTop: 2,
+    marginTop: 3,
+    height: '100%'
   },
 }
 

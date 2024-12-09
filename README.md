@@ -1,17 +1,18 @@
 # Notas sobre el Challenge
 ## Aclaración
 En los requisitos del challenge se especificaba que para el manejo de las rutas se utilice la librería **react-router-dom**.  
-Sin embargo, dicha librería está obsoleta y, hoy en día, es solo un export de la librería **react-router**, por lo que directamente se avanzará instalando esta última.
+Sin embargo, dicha librería está obsoleta y, hoy en día, es solo un export de la librería **react-router**, por lo que se avanzará instalando directamente esta última.
 
 ![](image.png)
 
+## Consideraciones
+- Entiendo que la arquitectura de la aplicacion es excesiva para sus propias necesidades. Se ha hecho esta eleccion unicamente para satisfacer los requisitos del challenge.
+- La decisión de utilizar javascript y no typescript como lenguaje fue tomada unicamente por cuestiones de agilidad y velocidad al momento de escribir el codigo.
 
-Tambien, eleccion de javascript como lenguaje y no typescript fue unicamente por cuestiones de agilidad y velocidad al momento de escribir el codigo.
-
-## Pasos
+## Pasos  para configurar la clave API de RapidAPI.
 
 ### 1. Seleccionar una API
-Para este proyecto se utilizó la API **Weatherbit**.
+Para este proyecto se utilizaron dos apis. Para hacer la busqueda de ciudades por nombre se utilizó la API **Weatherapi** y para obtener el pronostico extendido de cinco días **Weatherbit**, ya que el pronostico extendido **Weatherapi** solo llega a 3 días y **Weatherbit** no tiene busqueda por nombre de ciudad.
 
 ### 2. Configurar la API en RapidAPI
 1. Iniciar sesión en [RapidAPI](https://rapidapi.com/).  

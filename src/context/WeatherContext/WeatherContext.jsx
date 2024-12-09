@@ -1,12 +1,26 @@
 import { createContext, useReducer } from "react";
-import WeatherReducer, { weatherDefault } from "./Reducers/WeatherReducer";
+import CityReducer, { cityDefault } from "./reducers/CityReducer";
+import ForecastReducer, { forecastDefault } from "./reducers/ForecastReducer";
 
 export const WeatherContext = createContext({});
 
-export const AppDataProvider = ({children}) => {
+export const WeatherProvider = ({children}) => {
 
-  const [weatherState, weatherDispatch] = useReducer( WeatherReducer, weatherDefault )
+  const [cityState, cityDispatch] = useReducer( CityReducer, cityDefault )
+  const [forecastState, forecastDispatch] = useReducer( ForecastReducer, forecastDefault )
 
-  return 
+  const contextValue = {
+    cityState, 
+    forecastState,
+
+    cityDispatch,
+    forecastDispatch,
+  }
+
+  return (
+    <WeatherContext.Provider value={contextValue}>
+      {children}
+    </WeatherContext.Provider>
+  )
 
 }

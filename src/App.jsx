@@ -1,22 +1,28 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import axios from 'axios';
-import { Button, CssBaseline, FormControl, IconButton, Input, InputAdornment, InputLabel, OutlinedInput } from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { Box, CssBaseline } from '@mui/material';
 import Home from './Pages/Home/Home';
-import { BrowserRouter } from 'react-router';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router';
+import { WeatherProvider } from './context/WeatherContext/WeatherContext';
+import Detail from './Pages/Detail/Detail';
 
 function App() {
 
   return (
-    <div style={{height: '100vh', width: '100vw', padding: 10}}>
-      <CssBaseline />
-      <BrowserRouter>
-        <Home />
-      </BrowserRouter>
-    </div>
+    <WeatherProvider>
+      <Box style={{height: '100vh', padding: 10}}>
+        <CssBaseline />
+        <BrowserRouter>
+          <Routes>
+            <Route path='/weather'>
+              {/* <Route index element={<Navigate to="/weather/search" />} /> */}
+              <Route index path="search" element={<Home />} />
+              <Route path="detail/:city" element={<Detail />} />
+            </Route>
+            <Route index element={<Navigate to="/weather/search" />} />
+            <Route path="*" element={<Navigate to="/weather/search" />} /> 
+          </Routes>
+        </BrowserRouter>
+      </Box>
+    </WeatherProvider>
   )
 }
 export default App

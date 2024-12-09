@@ -1,0 +1,57 @@
+[
+  {
+      "displayName": "Nueva San Salvador, La Libertad, El Salvador",
+      "lat": 13.68,
+      "lon": -89.28,
+      "temp": 20.5,
+      "city": "Nueva San Salvador",
+      "condition": "Clear",
+      "icon": "//cdn.weatherapi.com/weather/64x64/night/113.png",
+      "humidity": 90,
+      "windSpeed": 7.2
+  },
+  {
+      "displayName": "Nueva Guinea, Region Autonoma Atlantico Sur, Nicaragua",
+      "lat": 11.68,
+      "lon": -84.45,
+      "temp": 21.5,
+      "city": "Nueva Guinea",
+      "condition": "Light rain shower",
+      "icon": "//cdn.weatherapi.com/weather/64x64/night/353.png",
+      "humidity": 98,
+      "windSpeed": 12.2
+  },
+  {
+      "displayName": "Nueva Rosita, Coahuila, Mexico",
+      "lat": 27.94,
+      "lon": -101.22,
+      "temp": 11.9,
+      "city": "Nueva Rosita",
+      "condition": "Overcast",
+      "icon": "//cdn.weatherapi.com/weather/64x64/night/122.png",
+      "humidity": 93,
+      "windSpeed": 6.1
+  },
+  {
+      "displayName": "Nueva Rosita, Coahuila, Mexico",
+      "lat": 25.42,
+      "lon": -100.52,
+      "temp": 6.8,
+      "city": "Nueva Rosita",
+      "condition": "Cloudy",
+      "icon": "//cdn.weatherapi.com/weather/64x64/night/119.png",
+      "humidity": 96,
+      "windSpeed": 5
+  },
+  {
+      "displayName": "Nueva Italia De Ruiz, MichoacÃ¡n, Mexico",
+      "lat": 19.03,
+      "lon": -102.09,
+      "temp": 21.8,
+      "city": "Nueva Italia De Ruiz",
+      "condition": "Clear",
+      "icon": "//cdn.weatherapi.com/weather/64x64/night/113.png",
+      "humidity": 66,
+      "windSpeed": 3.6
+  }
+]
