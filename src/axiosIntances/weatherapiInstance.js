@@ -9,7 +9,7 @@ const weatherapiInstance = axios.create({
   baseURL: 'https://weatherapi-com.p.rapidapi.com/',
   timeout: 2000,
   headers: {
-    'x-rapidapi-key': '655e7584fbmsh272ff5cfa73554cp1224e9jsn5a2cb98937f4', //todo: move to env variables
+    'x-rapidapi-key': import.meta.env.VITE_WEATHERAPI_KEY, //todo: move to env variables
     'x-rapidapi-host': 'weatherapi-com.p.rapidapi.com'
   }
 })

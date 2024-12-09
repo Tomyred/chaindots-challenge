@@ -9,7 +9,7 @@ const weatherbitInstance = axios.create({
   baseURL: 'https://weatherbit-v1-mashape.p.rapidapi.com/',
   timeout: 2000,
   headers: {
-    'x-rapidapi-key': '0d16e3b548msh7e2f52f63da2a33p10ad66jsne2bf5d181bf2', //todo: move to env variables
+    'x-rapidapi-key': import.meta.env.VITE_WEATHERBIT_KEY, //todo: move to env variables
     'x-rapidapi-host': 'weatherbit-v1-mashape.p.rapidapi.com'
   }
 })
