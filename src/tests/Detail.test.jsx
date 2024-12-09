@@ -14,25 +14,30 @@ vi.mock('react-router', async (importOriginal) => {
   };
 });
 
+const renderWithContext = () => {
+  const initialForecastState = { data: {} };
+  return render(
+    <WeatherContext.Provider
+      value={{
+        forecastState: initialForecastState,
+        forecastDispatch: vi.fn(),
+      }}
+    >
+      <ReactRouter.MemoryRouter initialEntries={['/weather/detail/New York']}>
+        <Detail />
+      </ReactRouter.MemoryRouter>
+    </WeatherContext.Provider>
+  );
+}
+
 describe('Detail Component', () => {
   it('should update forecastState.data and match keys with measurement-container count', async () => {
-    const initialForecastState = { data: {} };
+   
 
     const mockState = { lat: 40.7128, lon: -74.0060 };
     vi.mocked(ReactRouter.useLocation).mockReturnValue({ state: mockState });
 
-    render(
-      <WeatherContext.Provider
-        value={{
-          forecastState: initialForecastState,
-          forecastDispatch: vi.fn(),
-        }}
-      >
-        <ReactRouter.MemoryRouter initialEntries={['/weather/detail/New York']}>
-          <Detail />
-        </ReactRouter.MemoryRouter>
-      </WeatherContext.Provider>
-    );
+    renderWithContext()
 
     await waitFor(() => {
       const measurementContainers = screen.queryAllByTestId('measurement-container');

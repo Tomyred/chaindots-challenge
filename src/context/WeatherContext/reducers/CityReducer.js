@@ -2,7 +2,10 @@ export const cityDefault = {
   loading: false,
   loaded: false,
   loadingError: false,
-  data: []
+  data: [],
+  saveFavoriteSuccess: false,
+  saveFavoriteError: false,
+  favError: ''
 }
 
 export default (state = cityDefault, action) => {
@@ -35,6 +38,27 @@ export default (state = cityDefault, action) => {
         loading: false,
         loaded: false,
         loadingError: true,
+      }
+    case 'CITY_NEW_FAVORITE_INIT':
+      return {
+        ...state,
+        saveFavoriteSuccess: false,
+        saveFavoriteError: false
+      }
+    
+    case 'CITY_NEW_FAVORITE_SUCCESS':
+      return {
+        ...state,
+        saveFavoriteSuccess: true,
+        saveFavoriteError: false
+      }
+
+    case 'CITY_NEW_FAVORITE_ERROR':
+      return {
+        ...state,
+        saveFavoriteSuccess: false,
+        saveFavoriteError: true,
+        favError: payload
       }
     
     case 'CITY_RESET_STATE':

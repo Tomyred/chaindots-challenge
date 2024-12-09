@@ -1,3 +1,4 @@
+import { deleteFromFavorite, insertNewFavorite } from '../../../services/db';
 import * as api from '../api/api'
 import * as types from './types'
 
@@ -26,6 +27,50 @@ export const searchCity = async (dispatch, city = '') => {
     }
   }else{
     resetState(dispatch)
+  }
+}
+
+export const handleAddToFavorite = (dispatch, city, id) =>  {
+  console.log({id})
+  try {
+    dispatch({
+      type: types.CITY_NEW_FAVORITE_INIT
+    })
+    const newFavorite = insertNewFavorite({...city, userId: id})
+    if(newFavorite){
+      dispatch({
+        type: types.CITY_NEW_FAVORITE_SUCCESS
+      })
+    }else{
+      dispatch({
+        type: types.CITY_NEW_FAVORITE_ERROR
+      })
+    }
+
+  } catch (error) {
+    console.log({error})
+    dispatch({
+      type: types.CITY_NEW_FAVORITE_ERROR,
+      payload: error.message
+    })
+  }
+
+}
+
+export const handleRemoveFromFavs = (dispatch, city, id) => {
+  try {
+    dispatch({
+      type: types.CITY_NEW_FAVORITE_INIT
+    })
+    deleteFromFavorite(id, city.displayName)
+    dispatch({
+      type: types.CITY_NEW_FAVORITE_SUCCESS
+    })
+  } catch (error) {
+    dispatch({
+      type: types.CITY_NEW_FAVORITE_ERROR
+    })
+    
   }
 }
 

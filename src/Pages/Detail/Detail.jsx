@@ -2,48 +2,108 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router';
 import { WeatherContext } from '../../context/WeatherContext/WeatherContext';
 import { searchForecast } from '../../context/WeatherContext/actions/forecastActions';
-import { Box, Typography, Collapse, IconButton, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
+import { Box, Typography, Collapse, IconButton, TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, Button, Snackbar } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { ArrowBack } from '@mui/icons-material';
+import { ArrowBack, Delete, Favorite } from '@mui/icons-material';
+import { handleAddToFavorite, handleRemoveFromFavs } from '../../context/WeatherContext/actions/cityActions';
+import { isInFavorites } from '../../services/db';
+import { AuthContext } from '../../context/AuthContext/AuthContext';
 
 const Detail = () => {
-  const { city } = useParams(); 
+  const { cityname } = useParams(); 
   const location = useLocation();
   const navigate = useNavigate()
-  const { lat, lon } = location.state;
-  const { forecastState, forecastDispatch } = useContext(WeatherContext);
+  const city = location.state;
+  const {lat, lon} = city
+  const { forecastState, cityState, cityDispatch } = useContext(WeatherContext);
+  const { authState } = useContext(AuthContext);
+  const {user} = authState
+
+  const {data, loading, loaded, loadingError} = forecastState;
+  const {saveFavoriteSuccess, saveFavoriteError, favError} = cityState
   
   const [expandedDate, setExpandedDate] = useState(null);
+  const [openSuccess, setOpenSuccess] = useState(false);
+  const [openError, setOpenError] = useState(false);
+  const [isInFav, setIsInFav] = useState(false);
 
   useEffect(() => {
     searchForecast(forecastDispatch, lat, lon);
   }, [lat, lon]);
 
-  const groupedData = forecastState.data;
+  useEffect(() => {
+    setIsInFav(isInFavorites(city));
+  }, [saveFavoriteSuccess, saveFavoriteError])
+  
+
+  useEffect(() => {
+    
+    if(saveFavoriteSuccess){
+      setOpenSuccess(true)
+    }else if(saveFavoriteError){
+      setOpenError(true)
+    }
+
+  }, [saveFavoriteSuccess, saveFavoriteError])
+  
+  const handleRemove = () => {
+    handleRemoveFromFavs(cityDispatch, city, user.id)
+    setIsInFav(isInFavorites(city))
+  }
 
   const handleDateClick = (date) => {
     setExpandedDate(expandedDate === date ? null : date);
   };
 
+  const handleAddFavorite = () => {
+    handleAddToFavorite(cityDispatch, city, user.id)
+    setIsInFav(isInFavorites(city))
+  }
+
+  const handleCloseSuccess = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenSuccess(false);
+  };
+
+  const handleCloseError = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpenError(false);
+  };
+
   return (
     <Box sx={{ padding: 3 }}>
-      <Box display='flex' alignItems='center' justifyContent='space-between' >
+      <Box display='flex' alignItems='center' justifyContent='space-between' sx={{marginBottom: 2}} >
         <IconButton onClick={() => navigate(-1)} >
           <ArrowBack sx={{color: '#757de8'}} />
         </IconButton>
-        <Box >
-          <Typography textAlign='right' variant="h4" gutterBottom>{city}</Typography>
+        <Box display='flex' alignItems='flex-end' justifyContent='space-between' flexDirection={'column'}>
+          <Typography textAlign='right' variant="h4" gutterBottom>{cityname}</Typography>
           <Typography display={'block'}  textAlign='right' variant="p">
             5-day forecast
           </Typography>
+
+          {
+            isInFav ?
+            <Button onClick={handleRemove} sx={{ color: '#B32134' }}> <Delete sx={{ mr: 1, color: '#B32134' }}/> Remove from favorites</Button>
+            :
+            <Button onClick={handleAddFavorite} sx={{ color: '#f76c83' }}> <Favorite sx={{ mr: 1, color: '#f76c83' }}/> Add to favorites</Button>
+          }
+
+          
         </Box>
       </Box>
-      {Object.keys(groupedData).map((date) => (
-        <Box data-testid="measurement-container" key={date} sx={{ marginY: 4 }} onClick={() => handleDateClick(date)}>
+      {Object.keys(data).map((date) => (
+        <Box data-testid="measurement-container" key={date} sx={{cursor: 'pointer', backgroundColor: 'background.paper', padding: 1, border: '1px solid grey' }} onClick={() => handleDateClick(date)}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <Typography
               variant="h6"
-              sx={{ cursor: 'pointer', flex: 1 }}
+              sx={{ flex: 1 }}
             >
               {date}
             </Typography>
@@ -52,8 +112,6 @@ const Detail = () => {
               <ExpandMoreIcon />
             </IconButton>
           </Box>
-
-          {/* Collapse para las mediciones de un día */}
           <Collapse  in={expandedDate === date}>
             <TableContainer sx={{marginY: 2}} component={Paper}>
               <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -67,7 +125,7 @@ const Detail = () => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {groupedData[date].sort( (i,j) => i.time.slice(0,2) - j.time.slice(0,2) ).map((measurement, index) => (
+                  {data[date].sort( (i,j) => i.time.slice(0,2) - j.time.slice(0,2) ).map((measurement, index) => (
                     <TableRow
                       key={measurement.time}
                       sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -87,6 +145,18 @@ const Detail = () => {
           </Collapse>
         </Box>
       ))}
+      <Snackbar
+        open={openSuccess}
+        autoHideDuration={3000}
+        onClose={handleCloseSuccess}
+        message="Added to favorites"
+      />
+      <Snackbar
+        open={openError}
+        autoHideDuration={3000}
+        onClose={handleCloseError}
+        message={favError}
+      />
     </Box>
   );
 };

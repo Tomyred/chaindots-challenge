@@ -13,7 +13,7 @@ let typingTimer
 const Home = () => {
   const {cityState, cityDispatch} = useContext(WeatherContext)
   const navigate = useNavigate()
-  const {data, loading} = cityState
+  const {data, loading, loaded, loadingError} = cityState
 
 
   const handleKeyUp = e => {
@@ -28,8 +28,9 @@ const Home = () => {
   };
 
   const handleCardClick = (city) => {
-    navigate("/weather/detail/" + city.displayName, {state: {lat: city.lat, lon: city.lon}})
+    navigate("/weather/detail/" + city.displayName, {state: city})
   }
+
 
   return (
     <Container>
@@ -49,12 +50,25 @@ const Home = () => {
         </FormControl>
       </Box>
       <Box sx={styles.resultsContainer} >
-        <Typography sx={{display: 'flex', alignItems: 'center'}} variant='h4' textAlign="left" > Results {loading && <CircularProgress sx={{marginLeft: 2}} size="2rem"/>} </Typography>
-        <Box sx={styles.cardsContainer}>
-          {data.map( (city, i) => {
-            return <WeatherCard key={city.displayName + i} city={city} onClick={handleCardClick}/>
-          } )}
-        </Box>
+        {
+          loading ?
+          <CircularProgress size="2rem"/>
+          :
+          loaded ? 
+            <>
+              <Typography sx={{display: 'flex', alignItems: 'center'}} variant='h4' textAlign="left" > Results </Typography>
+              <Box sx={styles.cardsContainer}>
+                {data.map( (city, i) => {
+                  return <WeatherCard key={city.displayName + i} city={city} onClick={handleCardClick} />
+                } )}
+              </Box>
+            </>
+          :
+          loadingError ?
+          <Typography sx={{display: 'flex', alignItems: 'center'}} variant='h6' textAlign="left" > An error has occurred </Typography>
+          : <></>
+        }
+
       </Box>
     </Container>
   )
@@ -75,7 +89,7 @@ const styles = {
     width: {
       xs: '100%',
       sm: '100%',
-      md: '60%',
+      md: '80%',
     },
     marginTop: 5,
     height: '100%'

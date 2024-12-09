@@ -26,3 +26,5 @@ Para este proyecto se utilizaron dos apis. Para hacer la busqueda de ciudades po
   - **`x-rapidapi-key`**: La API Key obtenida.
   - **`x-rapidapi-host`**: El valor debe ser `'x-rapidapi-host'`.
 
+## Pasos para levantar el entorno local.
+

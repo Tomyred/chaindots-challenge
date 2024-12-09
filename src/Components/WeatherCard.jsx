@@ -1,8 +1,8 @@
-import { Favorite, Opacity, Speed } from '@mui/icons-material'
+import { Delete, Favorite, Opacity, Speed } from '@mui/icons-material'
 import { Box, Card, CardActions, CardContent, CardMedia, IconButton, Typography } from '@mui/material'
 import React from 'react'
 
-const WeatherCard = ({ city, onClick }) => {
+const WeatherCard = ({ city, onClick, handleRemove }) => {
 
   const onCardClick = () => {
 
@@ -13,9 +13,9 @@ const WeatherCard = ({ city, onClick }) => {
     <Card
       sx={styles.card}
       onClick={onCardClick}
-       data-testid="city-card"
+      data-testid="city-card"
     >
-      <Box sx={{backgroundColor: 'background.paper', color: 'text.primary'}} display="flex" flexDirection="column" gap={.5} flex="1">
+      <Box  display="flex" flexDirection="column" justifyContent='space-between' gap={.5} flex="1">
         <Typography
           variant="h4"
           component="div"
@@ -47,6 +47,13 @@ const WeatherCard = ({ city, onClick }) => {
             <Speed fontSize="small" color="action" />
             <Typography variant="caption">{city.windSpeed} km/h Wind</Typography>
           </Box>
+          {
+            handleRemove
+            &&
+          <IconButton onClick={() => handleRemove(city)} >
+            <Delete sx={{color: '#B32134'}} />
+          </IconButton>
+          }
         </Box>
       </Box>
 
@@ -70,8 +77,10 @@ const styles = {
     width: {
       xs: '100%',
       sm: '100%',
-      md: '45%',
+      md: '48%',
     },
+    minWidth: 350,
+    height: 200,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
