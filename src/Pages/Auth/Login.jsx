@@ -9,7 +9,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const {authState, authDispatch} = useContext(AuthContext);
-  const {error} = authState
+  const {loginError} = authState
 
   const handleRegisterNavigation = () => {
     navigate('/auth/register');
@@ -36,7 +36,7 @@ const Login = () => {
       <Typography variant="h5" sx={{ mb: 2 }}>
         Login
       </Typography>
-      {error.length > 0 
+      {loginError.length > 0 
       &&
       <Typography textAlign={'center'} display={'block'}  variant="p" sx={{ mb: 2, color: 'red' }}>
         {error}
