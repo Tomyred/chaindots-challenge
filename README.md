@@ -27,4 +27,5 @@ Para este proyecto se utilizaron dos apis. Para hacer la busqueda de ciudades po
   - **`x-rapidapi-host`**: El valor debe ser `'x-rapidapi-host'`.
 
 ## Pasos para levantar el entorno local.
+Se trabajo en el proyecto con node v22.12.0 y npm 10.9.0
 
