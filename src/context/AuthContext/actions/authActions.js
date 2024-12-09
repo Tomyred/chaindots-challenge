@@ -15,14 +15,14 @@ export const doLogin = (dispatch, email, password) => {
       })
     }else{
       dispatch({
-        type: types.REGISTER_LOAD_FAILED,
+        type: types.LOGIN_LOAD_FAILED,
         payload: 'Incorrect username or password'
       })
     }
 
   } catch (error) {
     dispatch({
-      type: types.REGISTER_LOAD_FAILED,
+      type: types.LOGIN_LOAD_FAILED,
       payload: 'Incorrect username or password'
     })
   }
